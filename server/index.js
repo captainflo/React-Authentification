@@ -7,8 +7,13 @@ const app = express();
 const router = require('./router')
 const mongoose = require('mongoose');
 
-// DB Setup
-mongoose.connect('mongodb://localhost/auth', { useNewUrlParser: true});
+// Connect to the Mongo DB
+mongoose.Promise = Promise;
+if(process.env.MONGODB_URI) {
+    mongoose.connect(process.env.MONGODB_URI)
+} else {
+    mongoose.connect("mongodb://localhost:27017/auth", { useNewUrlParser: true });
+}
 
 // App Setup
 app.use(morgan('combined')); /* login server in your terminal */
